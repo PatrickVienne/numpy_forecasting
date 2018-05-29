@@ -28,7 +28,6 @@ if __name__ == '__main__':
     means[:, 0] = np.arange(TOTAL_SIZE, dtype=int)
     means[:, 1:] *= np.nan
     for i, ts in enumerate(b_ts):
-        #means[ts[:, 0].astype(int), i + 1] = ts[:, 1]
         means[:, i + 1] = np.interp(np.arange(TOTAL_SIZE, dtype=int), ts[:, 0].astype(int), ts[:, 1])
 
     bt_mean = np.empty((TOTAL_SIZE, 4))

@@ -1,17 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import statsmodels.api as sm  # import model API for statsmodels
 from statsmodels.tsa.ar_model import AR
-
-import itertools
-
-price_dtype = [("timestamp", "f8"), ("price", "f8")]
-
-# Define the p, d and q parameters to take any value between 0 and 2
-p = d = q = range(0, 2)
-
-# Generate all different combinations of p, q and q triplets
-pdq = list(itertools.product(p, d, q))
 
 
 def generate_random_arima_timeseries(size, factors):
@@ -22,8 +11,9 @@ def generate_random_arima_timeseries(size, factors):
     b = np.zeros((size,2))
     b[:, 0] = np.arange(size, dtype=int)
     for i in range(len(factors),size):
-        b[i,1] = np.dot(b[i-len(factors):i,1], factors) + random_values[i]# + np.cumsum(np.dot(random_values[i-len(factors):i], factors)) # + np.sum(np.dot(random_values[i-len(factors):i], factors))
+        b[i,1] = np.dot(b[i-len(factors):i,1], factors) + random_values[i]
     return b
+
 
 def get_bootstrapped_timeseries(timeseries, fraction, n=1):
     return [timeseries[np.where(np.random.sample(len(timeseries)) < fraction)] for _ in range(n)]
